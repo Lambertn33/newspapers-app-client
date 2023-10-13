@@ -1,9 +1,24 @@
-import React from 'react'
+import { Col, Card } from "react-bootstrap";
 
 const Home = () => {
   return (
-    <div>Home</div>
-  )
-}
+    <Col md={{ span: 6, offset: 3 }}>
+      <Card>
+        <Card.Body>
+          <Card.Title>Welcome To This Application</Card.Title>
+          <Card.Subtitle className="mb-2 text-muted">
+            Card Subtitle
+          </Card.Subtitle>
+          <Card.Text>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+            Consectetur quas quia facere nobis placeat illum esse velit.
+            Reprehenderit veniam placeat itaque nulla dolores, possimus nesciunt
+            assumenda vel. Saepe, id. Expedita?
+          </Card.Text>
+        </Card.Body>
+      </Card>
+    </Col>
+  );
+};
 
-export default Home
+export default Home;
