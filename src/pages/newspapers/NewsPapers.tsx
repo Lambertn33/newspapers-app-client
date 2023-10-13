@@ -1,9 +1,25 @@
-import React from 'react'
+import { Col, Row } from "react-bootstrap";
+import BreadCrumb from "../../components/breadcrumb/BreadCrumb";
+import { BreadCrumbInterface } from "../../interfaces/Breadcrumb";
 
 const NewsPapers = () => {
+  const breadcrumbs: BreadCrumbInterface[] = [
+    {
+      label: "NewsPapers List",
+      url: "/newspapers",
+      isActive: true,
+    },
+    {
+      label: "Manage",
+      url: "/newspapers/manage",
+      isActive: false,
+    },
+  ];
   return (
-    <div>NewsPapers</div>
-  )
-}
+    <Row>
+      <BreadCrumb breadcrumbs={breadcrumbs}/>
+    </Row>
+  );
+};
 
-export default NewsPapers
+export default NewsPapers;

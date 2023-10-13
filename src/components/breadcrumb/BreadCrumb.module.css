@@ -1,0 +1,7 @@
+.active {
+  color: gray;
+}
+
+.item a{
+  text-decoration: none;
+}

@@ -1,8 +1,8 @@
-import React from 'react'
+import BreadCrumb from '../../components/breadcrumb/BreadCrumb'
 
 const NewsPaper = () => {
   return (
-    <div>NewsPaper</div>
+   <BreadCrumb breadcrumbs={[]}/>
   )
 }
 

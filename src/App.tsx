@@ -5,7 +5,7 @@ import { NewsPaper, ManageNewsPaper, NewsPapers } from "./pages/newspapers";
 import { Publisher, Publishers, ManagePublisher } from "./pages/publishers";
 import Home from "./pages/Home";
 
-import Header from "./components/Header/Header";
+import Header from "./components/header/Header";
 
 import styles from './App.module.css'
 
