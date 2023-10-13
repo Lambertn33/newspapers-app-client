@@ -2,11 +2,13 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { NewsPaper, ManageNewsPaper, NewsPapers } from "./pages/newspapers";
 import { Publisher, Publishers, ManagePublisher } from "./pages/publishers";
+import Header from "./components/Header/Header";
 import Home from "./pages/Home";
 
 const App = () => {
   return (
     <Router>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
 

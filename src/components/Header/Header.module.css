@@ -1,0 +1,9 @@
+.container a,
+.navbar_brand {
+  text-decoration: none;
+  color: #fff;
+}
+
+.navbar_nav {
+  gap: 2rem;
+}
