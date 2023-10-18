@@ -10,8 +10,8 @@ const BreadCrumb: React.FC<{ breadcrumbs: BreadCrumbInterface[] }> = ({
 }) => {
   return (
     <Breadcrumb className={styles.item}>
-      {breadcrumbs.map((breadcrumb) => (
-        <Breadcrumb.Item>
+      {breadcrumbs.map((breadcrumb, key) => (
+        <Breadcrumb.Item key={key}>
           <Link
             className={breadcrumb.isActive ? styles.active : ""}
             to={breadcrumb.url}
