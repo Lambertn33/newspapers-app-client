@@ -4,12 +4,14 @@ import { Col, Row } from "react-bootstrap";
 import { useAppSelector, useAppDispatch } from "../../store/store";
 import { fetchNewsPapers } from "../../store/newspapers/newspapersSlice";
 
-import { Header as NewsPapersHeader } from "../../components/newspapers/Header";
-import { List as NewsPapersList } from "../../components/newspapers/List";
+import {
+  Header as NewsPapersHeader,
+  List as NewsPapersList,
+  Manage as NewsPapersManage,
+} from "../../components/newspapers";
 
 const NewsPapers = () => {
   const [showModal, setShowModal] = useState(false);
-  
 
   const dispatch = useAppDispatch();
   const { newspapers, status } = useAppSelector((state) => state.newspapers);
@@ -26,13 +28,20 @@ const NewsPapers = () => {
   return (
     <>
       <Row>
-        <NewsPapersHeader />
+        <NewsPapersHeader handleShow={handleShow} />
       </Row>
       <Row>
         <Col>
           <NewsPapersList data={newspapers} />
         </Col>
       </Row>
+      <NewsPapersManage
+        data={{
+          title: "Create a newspaper",
+          showModal: showModal,
+          handleClose: handleClose,
+        }}
+      />
     </>
   );
 };
