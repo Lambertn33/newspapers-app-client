@@ -8,11 +8,6 @@ export const Header = () => {
       url: "/newspapers",
       isActive: true,
     },
-    {
-      label: "Manage",
-      url: "/newspapers/manage",
-      isActive: false,
-    },
   ];
   return <BreadCrumb breadcrumbs={breadcrumbs} />;
 };
