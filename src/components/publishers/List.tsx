@@ -25,7 +25,7 @@ export const List: FC<{ data: Publisher[] }> = ({ data }) => {
       </thead>
       <tbody>
         {data.map((publisher, key) => (
-          <tr>
+          <tr key={key}>
             <td>{++key}</td>
             <td>{publisher.names}</td>
             <td>{formatDate(publisher.joinedDate)}</td>

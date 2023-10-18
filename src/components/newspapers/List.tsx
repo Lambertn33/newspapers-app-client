@@ -26,7 +26,7 @@ export const List: FC<{ data: NewsPaper[] }> = ({ data }) => {
       </thead>
       <tbody>
         {data.map((newspaper, key) => (
-          <tr>
+          <tr key={key}>
             <td>{++key}</td>
             <td>{newspaper.title}</td>
             <td>{formatDate(newspaper.creationDate)}</td>

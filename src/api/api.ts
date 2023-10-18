@@ -1,4 +1,5 @@
 import axios from "axios";
+import { PublisherInputs } from "../interfaces/PublisherInputs";
 
 const endpoint = "http://16.171.166.236/api";
 
@@ -15,4 +16,13 @@ export const getNewsPapers = async () => {
 export const getPublishers = async () => {
   const { publishers } = await GET_ALL("publishers");
   return publishers;
+};
+
+export const addPublisher = async (data: PublisherInputs) => {
+  const { names, joinedDate } = data;
+  const response = await axios.post(`${endpoint}/publishers`, {
+    names,
+    joinedDate,
+  });
+  return await response.data;
 };

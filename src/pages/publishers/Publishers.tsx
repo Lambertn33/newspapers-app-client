@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
 
 import { useAppSelector, useAppDispatch } from "../../store/store";
-import { fetchPublishers } from "../../store/publishers/publishersSlice";
+import {
+  fetchPublishers,
+  createPublisher,
+  publishersActions,
+} from "../../store/publishers/publishersSlice";
 
 import {
   Header as PublishersHeader,
@@ -16,18 +20,38 @@ const Publishers = () => {
   const [showModal, setShowModal] = useState(false);
   const { publishers, status } = useAppSelector((state) => state.publishers);
 
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchPublishers());
     }
   }, [status, dispatch]);
 
-  const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
+  // create new publisher
+  const createPublisherHandler = async (data: any) => {
+    const response = await dispatch(createPublisher(data));
+    const { meta, payload } = response;
+
+    if (meta.requestStatus === "fulfilled") {
+      const { newPublisher } = payload;
+      const createdPublisher = {
+        id: newPublisher.id,
+        names: newPublisher.names,
+        joinedDate: newPublisher.joinedDate,
+        _count: {
+          newsPapers: 0,
+        },
+      };
+      dispatch(publishersActions.appendPublisher(createdPublisher));
+      setShowModal(false);
+    }
+  };
 
   return (
     <>
-      <PublishersHeader handleShow={handleShow}/>
+      <PublishersHeader handleShow={handleShow} />
       <Row>
         <Col md={{ span: 10, offset: 1 }}>
           <PublishersList data={publishers} />
@@ -35,10 +59,11 @@ const Publishers = () => {
       </Row>
       <PublishersManage
         data={{
-          title: 'Create a publisher',
+          title: "Create a publisher",
           showModal: showModal,
           handleClose: handleClose,
         }}
+        onCreatePublisher={createPublisherHandler}
       />
     </>
   );
