@@ -12,7 +12,7 @@ export const getNewsPapers = async () => {
   return newspapers;
 };
 
-export const fetchPublishers = async () => {
+export const getPublishers = async () => {
   const { publishers } = await GET_ALL("publishers");
   return publishers;
 };
