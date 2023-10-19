@@ -1,6 +1,6 @@
 import { IPublisherInputs } from "./IPublisherInputs";
 
-interface NewsPaper {
+interface INewsPaper {
   id: number;
   link: string;
   image: string;
@@ -11,5 +11,5 @@ interface NewsPaper {
 
 export interface IPublisherDetails extends IPublisherInputs {
   id: number
-  newsPapers: NewsPaper[];
+  newsPapers: INewsPaper[];
 }

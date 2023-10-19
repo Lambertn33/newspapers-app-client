@@ -17,7 +17,7 @@ export const Header: FC<{ handleShow: () => void }> = ({ handleShow }) => {
         <BreadCrumb breadcrumbs={breadcrumbs} />
       </Col>
       <Col md={6} className="d-flex justify-content-end">
-        <Button variant="primary" onClick={handleShow}>
+        <Button variant="primary" onClick={handleShow} className="btn-sm">
           Add Publisher
         </Button>
       </Col>

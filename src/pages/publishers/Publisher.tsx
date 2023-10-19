@@ -1,21 +1,43 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { Row } from "react-bootstrap";
+
 import { getPublisher } from "../../api/api";
+
 import { IPublisherDetails } from "../../interfaces/IPublisherDetails";
+
+import {
+  Header as PublisherHeader,
+  NewsPapers as PublisherNewsPapers,
+} from "../../components/publisher";
 
 const Publisher = () => {
   const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(true);
   const [publisher, setPublisher] = useState<IPublisherDetails | null>(null);
 
   useEffect(() => {
     const fetchPublisher = async () => {
       const fetchedPublisher: IPublisherDetails = await getPublisher(id!);
-      console.log(fetchedPublisher);
       setPublisher(fetchedPublisher);
+      setIsLoading(false);
     };
     fetchPublisher();
   }, [id]);
-  return <div>Publisher - {publisher?.newsPapers[0]?.abstract}</div>;
+  return (
+    <>
+      {!isLoading && (
+        <>
+          <PublisherHeader publisher={publisher!} />
+          {publisher?.newsPapers?.length! > 0 && (
+            <Row>
+              <PublisherNewsPapers newspapers={publisher?.newsPapers} />
+            </Row>
+          )}
+        </>
+      )}
+    </>
+  );
 };
 
 export default Publisher;

@@ -14,7 +14,7 @@ interface Publisher {
 
 export const List: FC<{ data: Publisher[] }> = ({ data }) => {
   return (
-    <Table striped bordered hover>
+    <Table striped bordered hover className="mt-4">
       <thead>
         <tr>
           <th>#</th>
@@ -31,10 +31,10 @@ export const List: FC<{ data: Publisher[] }> = ({ data }) => {
             <td>{publisher.names}</td>
             <td>{formatDate(publisher.joinedDate)}</td>
             <td>{publisher._count.newsPapers}</td>
-            <td className="d-flex justify-content-between">
+            <td className="d-flex justify-content-around align-items-center">
               <Link to={`/publishers/${publisher.id}`}>More</Link>
-              <Button variant="warning">Edit</Button>
-              <Button variant="danger">Delete</Button>
+              <Button className="btn-sm" variant="warning">Edit</Button>
+              <Button className="btn-sm" variant="danger">Delete</Button>
             </td>
           </tr>
         ))}
