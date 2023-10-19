@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { PublisherInputs } from "../../interfaces/PublisherInputs";
+import { IPublisherInputs } from "../../interfaces/IPublisherInputs";
 import { getPublishers, addPublisher } from "../../api/api";
 
 export interface Publisher {
@@ -36,7 +36,7 @@ export const fetchPublishers = createAsyncThunk(
 
 export const createPublisher = createAsyncThunk(
   "publishers/add",
-  async (data: PublisherInputs, thunkAPI) => {
+  async (data: IPublisherInputs, thunkAPI) => {
     try {
       return await addPublisher(data);
     } catch (error) {

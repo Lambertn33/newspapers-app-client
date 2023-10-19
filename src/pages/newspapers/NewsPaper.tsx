@@ -1,9 +1,7 @@
-import BreadCrumb from '../../components/breadcrumb/BreadCrumb'
+import BreadCrumb from "../../components/breadcrumb/BreadCrumb";
 
 const NewsPaper = () => {
-  return (
-   <BreadCrumb breadcrumbs={[]}/>
-  )
-}
+  return <BreadCrumb breadcrumbs={[]} />;
+};
 
-export default NewsPaper
+export default NewsPaper;

@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 
-import { BreadCrumbInterface } from "../../interfaces/Breadcrumb";
+import { IBreadCrumb } from "../../interfaces/IBreadcrumb";
 
 import styles from "./BreadCrumb.module.css";
 
-const BreadCrumb: React.FC<{ breadcrumbs: BreadCrumbInterface[] }> = ({
+const BreadCrumb: React.FC<{ breadcrumbs: IBreadCrumb[] }> = ({
   breadcrumbs,
 }) => {
   return (

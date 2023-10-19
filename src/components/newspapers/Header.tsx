@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { Col, Row, Button } from "react-bootstrap";
-import { BreadCrumbInterface } from "../../interfaces/Breadcrumb";
+import { IBreadCrumb } from "../../interfaces/IBreadcrumb";
 import BreadCrumb from "../breadcrumb/BreadCrumb";
 
 export const Header: FC<{ handleShow: () => void }> = ({ handleShow }) => {
-  const breadcrumbs: BreadCrumbInterface[] = [
+  const breadcrumbs: IBreadCrumb[] = [
     {
       label: "NewsPapers List",
       url: "/newspapers",

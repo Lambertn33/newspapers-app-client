@@ -1,5 +1,6 @@
 import { FC } from "react";
-import { Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Table, Button } from "react-bootstrap";
 import { formatDate } from "../../util/date";
 
 interface Publisher {
@@ -30,10 +31,14 @@ export const List: FC<{ data: Publisher[] }> = ({ data }) => {
             <td>{publisher.names}</td>
             <td>{formatDate(publisher.joinedDate)}</td>
             <td>{publisher._count.newsPapers}</td>
+            <td className="d-flex justify-content-between">
+              <Link to={`/publishers/${publisher.id}`}>More</Link>
+              <Button variant="warning">Edit</Button>
+              <Button variant="danger">Delete</Button>
+            </td>
           </tr>
         ))}
       </tbody>
     </Table>
   );
 };
-
