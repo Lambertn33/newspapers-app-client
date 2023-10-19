@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Alert, Col, Row } from "react-bootstrap";
 
 import { useAppSelector, useAppDispatch } from "../../store/store";
 import {
@@ -14,15 +14,27 @@ import {
   List as PublishersList,
   Manage as PublishersManage,
 } from "../../components/publishers";
+import { IPublisherInputs } from "../../interfaces/IPublisherInputs";
 
 const Publishers = () => {
   const dispatch = useAppDispatch();
 
   const [showModal, setShowModal] = useState(false);
+  const [publisherToEdit, setPublisherToEdit] =
+    useState<IPublisherInputs | null>(null);
   const { publishers, status } = useAppSelector((state) => state.publishers);
 
-  const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
+  const handleClose = () => {
+    setPublisherToEdit(null);
+    setShowModal(false);
+  };
+  
+  const handleShow = (publisher?: any) => {
+    if (publisher) {
+      setPublisherToEdit(publisher);
+    }
+    setShowModal(true);
+  };
 
   useEffect(() => {
     if (status === "idle") {
@@ -62,17 +74,34 @@ const Publishers = () => {
     <>
       <PublishersHeader handleShow={handleShow} />
       <Row>
-        <Col md={{ span: 10, offset: 1 }}>
-          <PublishersList data={publishers} deletePublisher={deletePublisher} />
-        </Col>
+        {publishers.length > 0 ? (
+          <Col md={{ span: 10, offset: 1 }}>
+            <PublishersList
+              data={publishers}
+              deletePublisher={deletePublisher}
+              handleShow={handleShow}
+            />
+          </Col>
+        ) : (
+          <Col md={{ span: 6, offset: 3 }}>
+            <Alert key="danger" variant="danger">
+              No Publishers found... please create one
+            </Alert>
+          </Col>
+        )}
       </Row>
       <PublishersManage
         data={{
-          title: "Create a publisher",
+          title:
+            publisherToEdit === null
+              ? "Create a publisher"
+              : "Update a publisher",
           showModal: showModal,
           handleClose: handleClose,
+          isEditing: publisherToEdit !== null,
+          publisherToEdit: publisherToEdit,
         }}
-        onCreatePublisher={createPublisherHandler}
+        onManagePublisher={createPublisherHandler}
       />
     </>
   );

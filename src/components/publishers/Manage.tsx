@@ -1,20 +1,35 @@
-import { FC, useRef, FormEvent } from "react";
+import { FC, useRef, FormEvent, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
+import { IPublisherInputs } from "../../interfaces/IPublisherInputs";
 
 interface PublishersManage {
   title: string;
   showModal: boolean;
   handleClose: () => void;
+  isEditing: boolean;
+  publisherToEdit: IPublisherInputs | null;
 }
 
 export const Manage: FC<{
   data: PublishersManage;
-  onCreatePublisher: Function;
-}> = ({ data, onCreatePublisher }) => {
-  const { handleClose, showModal, title } = data;
+  onManagePublisher: Function;
+}> = ({ data, onManagePublisher }) => {
+  const { handleClose, showModal, title, publisherToEdit } = data;
+
+  const names = publisherToEdit ? publisherToEdit.names : "";
+  const joinedDate = publisherToEdit ? new Date(publisherToEdit.joinedDate).toISOString().split("T")[0] : "";
 
   const namesRef = useRef<HTMLInputElement>(null);
   const joinedDateRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (namesRef.current) {
+      namesRef.current.value = names;
+    }
+    if (joinedDateRef.current) {
+      joinedDateRef.current.value = joinedDate;
+    }
+  }, [names, joinedDate]);
 
   const submitFormHandler = (e: FormEvent) => {
     e.preventDefault();
@@ -22,7 +37,7 @@ export const Manage: FC<{
       names: namesRef.current?.value,
       joinedDate: joinedDateRef.current?.value,
     };
-    onCreatePublisher(data);
+    onManagePublisher(data);
   };
 
   return (

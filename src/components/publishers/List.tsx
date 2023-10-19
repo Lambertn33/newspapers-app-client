@@ -12,10 +12,21 @@ interface Publisher {
   };
 }
 
-export const List: FC<{ data: Publisher[]; deletePublisher: (id: number) => Promise<void> }> = ({
-  data,
-  deletePublisher
-}) => {
+export const List: FC<{
+  handleShow: (publisher?: any) => void;
+  data: Publisher[];
+  deletePublisher: (id: number) => Promise<void>;
+}> = ({ data, deletePublisher, handleShow }) => {
+  
+  const onHandleShow = (publisher: Publisher) => {
+    const publisherToEdit: any = {
+      id: publisher.id,
+      names: publisher.names,
+      joinedDate: publisher.joinedDate,
+    };
+    handleShow(publisherToEdit);
+  };
+
   return (
     <Table striped bordered hover className="mt-4">
       <thead>
@@ -36,7 +47,11 @@ export const List: FC<{ data: Publisher[]; deletePublisher: (id: number) => Prom
             <td>{publisher._count.newsPapers}</td>
             <td className="d-flex justify-content-around align-items-center">
               <Link to={`/publishers/${publisher.id}`}>More</Link>
-              <Button className="btn-sm" variant="warning">
+              <Button
+                className="btn-sm"
+                variant="warning"
+                onClick={() => onHandleShow(publisher)}
+              >
                 Edit
               </Button>
               <Button

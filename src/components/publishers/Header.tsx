@@ -3,7 +3,7 @@ import { Col, Row, Button } from "react-bootstrap";
 import { IBreadCrumb } from "../../interfaces/IBreadcrumb";
 import BreadCrumb from "../breadcrumb/BreadCrumb";
 
-export const Header: FC<{ handleShow: () => void }> = ({ handleShow }) => {
+export const Header: FC<{ handleShow: (publisher: any | null) => void }> = ({ handleShow }) => {
   const breadcrumbs: IBreadCrumb[] = [
     {
       label: "Publishers List",
@@ -17,7 +17,7 @@ export const Header: FC<{ handleShow: () => void }> = ({ handleShow }) => {
         <BreadCrumb breadcrumbs={breadcrumbs} />
       </Col>
       <Col md={6} className="d-flex justify-content-end">
-        <Button variant="primary" onClick={handleShow} className="btn-sm">
+        <Button variant="primary" onClick={() => handleShow(null)} className="btn-sm">
           Add Publisher
         </Button>
       </Col>
