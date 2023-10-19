@@ -12,7 +12,10 @@ interface Publisher {
   };
 }
 
-export const List: FC<{ data: Publisher[] }> = ({ data }) => {
+export const List: FC<{ data: Publisher[]; deletePublisher: (id: number) => Promise<void> }> = ({
+  data,
+  deletePublisher
+}) => {
   return (
     <Table striped bordered hover className="mt-4">
       <thead>
@@ -33,8 +36,16 @@ export const List: FC<{ data: Publisher[] }> = ({ data }) => {
             <td>{publisher._count.newsPapers}</td>
             <td className="d-flex justify-content-around align-items-center">
               <Link to={`/publishers/${publisher.id}`}>More</Link>
-              <Button className="btn-sm" variant="warning">Edit</Button>
-              <Button className="btn-sm" variant="danger">Delete</Button>
+              <Button className="btn-sm" variant="warning">
+                Edit
+              </Button>
+              <Button
+                className="btn-sm"
+                variant="danger"
+                onClick={() => deletePublisher(publisher.id)}
+              >
+                Delete
+              </Button>
             </td>
           </tr>
         ))}

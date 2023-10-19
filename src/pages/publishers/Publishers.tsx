@@ -5,6 +5,7 @@ import { useAppSelector, useAppDispatch } from "../../store/store";
 import {
   fetchPublishers,
   createPublisher,
+  removePublisher,
   publishersActions,
 } from "../../store/publishers/publishersSlice";
 
@@ -49,12 +50,20 @@ const Publishers = () => {
     }
   };
 
+  const deletePublisher = async (id: number) => {
+    const response = await dispatch(removePublisher(id));
+    const { meta } = response;
+    if (meta.requestStatus === "fulfilled") {
+      dispatch(publishersActions.erasePublisher({ id }));
+    }
+  };
+
   return (
     <>
       <PublishersHeader handleShow={handleShow} />
       <Row>
         <Col md={{ span: 10, offset: 1 }}>
-          <PublishersList data={publishers} />
+          <PublishersList data={publishers} deletePublisher={deletePublisher} />
         </Col>
       </Row>
       <PublishersManage

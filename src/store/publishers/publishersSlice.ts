@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { IPublisherInputs } from "../../interfaces/IPublisherInputs";
-import { getPublishers, addPublisher } from "../../api/api";
+import { getPublishers, addPublisher, deletePublisher } from "../../api/api";
 
 export interface Publisher {
   id: number;
@@ -45,12 +45,29 @@ export const createPublisher = createAsyncThunk(
   }
 );
 
+export const removePublisher = createAsyncThunk(
+  "publishers/delete",
+  async (id: number, thunkAPI) => {
+    try {
+      return await deletePublisher(id);
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const publishersSlice = createSlice({
   name: "publishers",
   initialState,
   reducers: {
     appendPublisher(state, action: PayloadAction<Publisher>) {
       state.publishers.push(action.payload);
+    },
+
+    erasePublisher(state, action: PayloadAction<{ id: number }>) {
+      state.publishers = state.publishers.filter(
+        (publisher) => publisher.id !== action.payload.id
+      );
     },
   },
   extraReducers: (builder) => {
@@ -68,10 +85,13 @@ export const publishersSlice = createSlice({
       })
       .addCase(createPublisher.fulfilled, (state, action) => {
         state.status = "succeeded";
+      })
+      .addCase(removePublisher.fulfilled, (state, action) => {
+        state.status = "succeeded";
       });
   },
 });
 
-export const publishersActions = publishersSlice.actions
+export const publishersActions = publishersSlice.actions;
 
 export default publishersSlice.reducer;
