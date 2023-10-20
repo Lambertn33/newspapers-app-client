@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getNewsPapers } from "../../api/api";
 
-export interface NewsPaper {
+interface INewsPaper {
   id: number;
   image: string;
   creationDate: Date;
@@ -11,13 +11,13 @@ export interface NewsPaper {
   };
 }
 
-interface NewsPapersState {
-  newspapers: NewsPaper[];
+interface INewsPapersState {
+  newspapers: INewsPaper[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed',
   error: string | null;
 }
 
-const initialState: NewsPapersState = {
+const initialState: INewsPapersState = {
   newspapers: [],
   status: 'idle',
   error: null

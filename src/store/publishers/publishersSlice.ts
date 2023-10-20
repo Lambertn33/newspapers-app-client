@@ -7,7 +7,7 @@ import {
   deletePublisher,
 } from "../../api/api";
 
-export interface Publisher {
+export interface IPublisher {
   id: number;
   names: string;
   joinedDate: Date;
@@ -16,13 +16,13 @@ export interface Publisher {
   };
 }
 
-interface PublishersState {
-  publishers: Publisher[];
+interface IPublishersState {
+  publishers: IPublisher[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
-const initialState: PublishersState = {
+const initialState: IPublishersState = {
   publishers: [],
   status: "idle",
   error: null,
@@ -76,7 +76,7 @@ export const publishersSlice = createSlice({
   name: "publishers",
   initialState,
   reducers: {
-    appendPublisher(state, action: PayloadAction<Publisher>) {
+    appendPublisher(state, action: PayloadAction<IPublisher>) {
       state.publishers.push(action.payload);
     },
 
