@@ -5,14 +5,11 @@ import { NewsPaper, NewsPapers } from "./pages/newspapers";
 import { Publisher, Publishers } from "./pages/publishers";
 import Home from "./pages/Home";
 
-import Header from "./components/header/Header";
-
 import styles from './App.module.css'
 
 const App = () => {
   return (
     <Router>
-      <Header />
       <Container className={styles.container}>
         <Row>
           <Col>
