@@ -6,6 +6,7 @@ import {
   fetchPublishers,
   createPublisher,
   removePublisher,
+  updatePublisher,
   publishersActions,
 } from "../../store/publishers/publishersSlice";
 
@@ -14,6 +15,8 @@ import {
   List as PublishersList,
   Manage as PublishersManage,
 } from "../../components/publishers";
+
+import Spinner from "../../components/spinner/Spinner";
 import { IPublisherInputs } from "../../interfaces/IPublisherInputs";
 
 const Publishers = () => {
@@ -23,12 +26,13 @@ const Publishers = () => {
   const [publisherToEdit, setPublisherToEdit] =
     useState<IPublisherInputs | null>(null);
   const { publishers, status } = useAppSelector((state) => state.publishers);
+  const isEditing = publisherToEdit !== null;
 
   const handleClose = () => {
     setPublisherToEdit(null);
     setShowModal(false);
   };
-  
+
   const handleShow = (publisher?: any) => {
     if (publisher) {
       setPublisherToEdit(publisher);
@@ -42,26 +46,38 @@ const Publishers = () => {
     }
   }, [status, dispatch]);
 
-  // create new publisher
-  const createPublisherHandler = async (data: any) => {
-    const response = await dispatch(createPublisher(data));
-    const { meta, payload } = response;
+  // create/ update publisher
+  const managePublisherHandler = async (data: any) => {
+    const response = isEditing
+      ? await dispatch(updatePublisher(data))
+      : await dispatch(createPublisher(data));
 
-    if (meta.requestStatus === "fulfilled") {
-      const { newPublisher } = payload;
-      const createdPublisher = {
-        id: newPublisher.id,
-        names: newPublisher.names,
-        joinedDate: newPublisher.joinedDate,
-        _count: {
-          newsPapers: 0,
-        },
-      };
-      dispatch(publishersActions.appendPublisher(createdPublisher));
+    if (response.meta.requestStatus === "fulfilled") {
+      const { payload } = response;
+      const publisherData = isEditing
+        ? payload.updatedPublisher
+        : payload.newPublisher;
+      const { id, names, joinedDate } = publisherData;
+
+      if (isEditing) {
+        dispatch(publishersActions.changePublisher({ id, names, joinedDate }));
+      } else {
+        const createdPublisher = {
+          id,
+          names,
+          joinedDate,
+          _count: {
+            newsPapers: 0,
+          },
+        };
+        dispatch(publishersActions.appendPublisher(createdPublisher));
+      }
+
       setShowModal(false);
     }
   };
 
+  // delete publisher
   const deletePublisher = async (id: number) => {
     const response = await dispatch(removePublisher(id));
     const { meta } = response;
@@ -73,23 +89,29 @@ const Publishers = () => {
   return (
     <>
       <PublishersHeader handleShow={handleShow} />
-      <Row>
-        {publishers.length > 0 ? (
-          <Col md={{ span: 10, offset: 1 }}>
-            <PublishersList
-              data={publishers}
-              deletePublisher={deletePublisher}
-              handleShow={handleShow}
-            />
-          </Col>
-        ) : (
-          <Col md={{ span: 6, offset: 3 }}>
-            <Alert key="danger" variant="danger">
-              No Publishers found... please create one
-            </Alert>
-          </Col>
-        )}
-      </Row>
+      {status === "idle" ? (
+        <div className="d-flex justify-content-center">
+          <Spinner />
+          </div>
+      ) : (
+        <Row>
+          {publishers.length > 0 ? (
+            <Col md={{ span: 10, offset: 1 }}>
+              <PublishersList
+                data={publishers}
+                deletePublisher={deletePublisher}
+                handleShow={handleShow}
+              />
+            </Col>
+          ) : (
+            <Col md={{ span: 6, offset: 3 }}>
+              <Alert key="danger" variant="danger">
+                No Publishers found... please create one
+              </Alert>
+            </Col>
+          )}
+        </Row>
+      )}
       <PublishersManage
         data={{
           title:
@@ -98,10 +120,10 @@ const Publishers = () => {
               : "Update a publisher",
           showModal: showModal,
           handleClose: handleClose,
-          isEditing: publisherToEdit !== null,
+          isEditing: isEditing,
           publisherToEdit: publisherToEdit,
         }}
-        onManagePublisher={createPublisherHandler}
+        onManagePublisher={managePublisherHandler}
       />
     </>
   );

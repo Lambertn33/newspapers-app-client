@@ -16,6 +16,11 @@ const POST = async (par: string, data: object) => {
   return await response.data;
 };
 
+const PUT = async(par: string, data: object) => {
+  const response = await axios.put(`${endpoint}/${par}`, data);
+  return await response.data;
+}
+
 const DELETE = async (par: string) => {
   const response = await axios.delete(`${endpoint}/${par}`);
   return await response.data;
@@ -40,6 +45,15 @@ export const addPublisher = async (data: IPublisherInputs) => {
   const response = await POST("publishers", data);
   return await response;
 };
+
+export const editPublisher = async(data: IPublisherInputs) => {
+  const { id, names, joinedDate } = data;
+  const response = await PUT(`publishers/${id}`, {
+    names,
+    joinedDate
+  });
+  return response;
+}
 
 export const deletePublisher = async (id: number) => {
   const response = await DELETE(`publishers/${id}`);

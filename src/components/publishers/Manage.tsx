@@ -14,13 +14,15 @@ export const Manage: FC<{
   data: PublishersManage;
   onManagePublisher: Function;
 }> = ({ data, onManagePublisher }) => {
-  const { handleClose, showModal, title, publisherToEdit } = data;
+  const { handleClose, showModal, title, publisherToEdit, isEditing } = data;
 
   const names = publisherToEdit ? publisherToEdit.names : "";
   const joinedDate = publisherToEdit ? new Date(publisherToEdit.joinedDate).toISOString().split("T")[0] : "";
 
   const namesRef = useRef<HTMLInputElement>(null);
   const joinedDateRef = useRef<HTMLInputElement>(null);
+
+  const buttonVariant = isEditing ? "success" : "primary";
 
   useEffect(() => {
     if (namesRef.current) {
@@ -34,6 +36,7 @@ export const Manage: FC<{
   const submitFormHandler = (e: FormEvent) => {
     e.preventDefault();
     const data = {
+      id: isEditing ? publisherToEdit?.id : null,
       names: namesRef.current?.value,
       joinedDate: joinedDateRef.current?.value,
     };
@@ -68,8 +71,8 @@ export const Manage: FC<{
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" type="submit">
-            Create Publisher
+          <Button variant={buttonVariant} type="submit">
+            {isEditing ? "Update Publisher" : "Create Publisher" }
           </Button>
         </Modal.Footer>
       </Form>

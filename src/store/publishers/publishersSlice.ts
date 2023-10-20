@@ -1,6 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { IPublisherInputs } from "../../interfaces/IPublisherInputs";
-import { getPublishers, addPublisher, deletePublisher } from "../../api/api";
+import {
+  getPublishers,
+  addPublisher,
+  editPublisher,
+  deletePublisher,
+} from "../../api/api";
 
 export interface Publisher {
   id: number;
@@ -45,6 +50,17 @@ export const createPublisher = createAsyncThunk(
   }
 );
 
+export const updatePublisher = createAsyncThunk(
+  "publishers/edit",
+  async (data: IPublisherInputs, thunkAPI) => {
+    try {
+      return await editPublisher(data);
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const removePublisher = createAsyncThunk(
   "publishers/delete",
   async (id: number, thunkAPI) => {
@@ -69,6 +85,18 @@ export const publishersSlice = createSlice({
         (publisher) => publisher.id !== action.payload.id
       );
     },
+
+    changePublisher(
+      state,
+      action: PayloadAction<{ id: number; names: string; joinedDate: Date }>
+    ) {
+      const { id, names, joinedDate } = action.payload;
+      const publishers = [...state.publishers];
+      const publisherIndex = publishers.findIndex((p) => p.id === id);
+      publishers[publisherIndex].joinedDate = joinedDate;
+      publishers[publisherIndex].names = names;
+      state.publishers = publishers;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -87,6 +115,9 @@ export const publishersSlice = createSlice({
         state.status = "succeeded";
       })
       .addCase(removePublisher.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      })
+      .addCase(updatePublisher.fulfilled, (state, action) => {
         state.status = "succeeded";
       });
   },
