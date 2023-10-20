@@ -17,15 +17,4 @@ jobs:
         with:
           name: dist-files
           path: dist
-  deploy:
-    runs-on: self-hosted
-    needs: build
-    steps:
-      - name: download the artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: dist-files
-      - name: create .env
-        run: |
-          touch .env
-          echo "${{secrets.SERVER_ENV_FILE}}" > .env
+
