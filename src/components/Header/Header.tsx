@@ -5,7 +5,7 @@ import newsLettersImage from '../../assets/newsletters.png';
 
 import styles from './Header.module.css';
 
-const Header = () => {
+export const Header = () => {
   return (
     <Navbar expand="lg" bg="primary" data-bs-theme="light">
       <Container className={styles.container}>
@@ -24,5 +24,3 @@ const Header = () => {
     </Navbar>
   );
 };
-
-export default Header;

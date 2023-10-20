@@ -12,6 +12,8 @@ jobs:
         run: npm install
       - name: build the project
         run: npm run build
+      - name: create dist folder
+        run: mkdir dist
       - name: produce artifacts
         uses: actions/upload-artifact@v3
         with:
