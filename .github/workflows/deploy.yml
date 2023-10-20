@@ -14,14 +14,14 @@ jobs:
 
       - name: build the project
         run: npm run build
-        working-directory: ./
+        # working-directory: ./
 
-      - name: create dist folder
-        run: mkdir dist/
+      # - name: create dist folder
+      #   run: mkdir dist/
 
       - name: produce artifacts
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          path: dist
+          path: build
 
