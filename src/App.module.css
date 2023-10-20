@@ -1,3 +1,13 @@
 .container {
   padding: 3rem 0;
 }
+
+.nav_container a,
+.navbar_brand {
+  text-decoration: none;
+  color: #fff;
+}
+
+.navbar_nav {
+  gap: 2rem;
+}
