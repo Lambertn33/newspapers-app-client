@@ -1,7 +1,10 @@
 import axios from "axios";
 import { IPublisherInputs } from "../interfaces/IPublisherInputs";
 
-const endpoint = "http://16.171.166.236/api";
+const endpoint =
+  process.env.NODE_ENV === "development"
+    ? process.env.REACT_APP_BACKEND_DEV
+    : process.env.REACT_APP_BACKEND_PROD;
 
 const GET = async (par: string) => {
   const response = await axios.get(`${endpoint}/${par}`);
@@ -13,10 +16,10 @@ const POST = async (par: string, data: object) => {
   return await response.data;
 };
 
-const DELETE = async(par: string) => {
+const DELETE = async (par: string) => {
   const response = await axios.delete(`${endpoint}/${par}`);
   return await response.data;
-}
+};
 
 export const getNewsPapers = async () => {
   const { newspapers } = await GET("newspapers");
@@ -38,7 +41,7 @@ export const addPublisher = async (data: IPublisherInputs) => {
   return await response;
 };
 
-export const deletePublisher = async(id: number) => {
+export const deletePublisher = async (id: number) => {
   const response = await DELETE(`publishers/${id}`);
   return response;
-}
+};
