@@ -15,6 +15,7 @@ const NewsPapers = () => {
 
   const dispatch = useAppDispatch();
   const { newspapers, status } = useAppSelector((state) => state.newspapers);
+  const { publishers } = useAppSelector((state) => state.publishers);
 
   useEffect(() => {
     if (status === "idle") {
@@ -38,6 +39,7 @@ const NewsPapers = () => {
       <NewsPapersManage
         data={{
           title: "Create a newspaper",
+          publishers: publishers,
           showModal: showModal,
           handleClose: handleClose,
         }}

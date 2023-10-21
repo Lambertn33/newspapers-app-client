@@ -14,7 +14,7 @@ interface NewsPaper {
 
 export const List: FC<{ data: NewsPaper[] }> = ({ data }) => {
   return (
-    <Table striped bordered hover>
+    <Table striped bordered hover className="mt-4">
       <thead>
         <tr>
           <th>#</th>
