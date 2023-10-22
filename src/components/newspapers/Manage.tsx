@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, FormEvent, useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
 export interface IPublisher {
@@ -17,23 +17,70 @@ interface NewsPapersManage {
   handleClose: () => void;
 }
 
-export const Manage: FC<{ data: NewsPapersManage }> = ({ data }) => {
+export const Manage: FC<{ data: NewsPapersManage, onCreateNewsPaper: Function }> = ({ data, onCreateNewsPaper }) => {
   const { handleClose, showModal, title, publishers } = data;
+  const [formData, setFormData] = useState({
+    newspaperTitle: "",
+    newspaperLink: "",
+    newspaperImage: null,
+    newspaperPublisher: {},
+    newspaperCreationDate: "",
+    newspaperAbstract: "",
+  });
+
+  const handleFormChange = (e: any) => {
+    const { name, value, type, files } = e.target;
+    if (name === "newspaperPublisher") {
+      const selectedId = value;
+      const selectedPublisher = publishers.find(
+        (publisher) => publisher.id.toString() === selectedId
+      );
+
+      setFormData({
+        ...formData,
+        newspaperPublisher: {
+          id: selectedPublisher?.id!,
+          names: selectedPublisher?.names!,
+        },
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === "file" ? files[0] : value,
+      });
+    }
+  };
+
+  const submitFormHandler = (e: FormEvent) => {
+    e.preventDefault();
+    onCreateNewsPaper(formData);
+  };
+
   return (
     <Modal show={showModal} onHide={handleClose} centered>
-      <Modal.Header closeButton>
-        <Modal.Title>{title}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form>
+      <Form onSubmit={submitFormHandler}>
+        <Modal.Header closeButton>
+          <Modal.Title>{title}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <Form.Group className="mb-3">
             <Form.Label>Newspaper title</Form.Label>
-            <Form.Control type="text" placeholder="newspaper title" autoFocus />
+            <Form.Control
+              type="text"
+              required
+              name="newspaperTitle"
+              onChange={handleFormChange}
+              placeholder="newspaper title"
+              autoFocus
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Newspaper link</Form.Label>
             <Form.Control
+              name="newspaperLink"
+              required
+              onChange={handleFormChange}
               type="url"
               autoFocus
               placeholder="http://example.com"
@@ -42,17 +89,28 @@ export const Manage: FC<{ data: NewsPapersManage }> = ({ data }) => {
 
           <Form.Group className="mb-3">
             <Form.Label>Newspaper image</Form.Label>
-            <Form.Control type="file" autoFocus accept="image/*" />
+            <Form.Control
+              name="newspaperImage"
+              required
+              onChange={handleFormChange}
+              type="file"
+              autoFocus
+              accept="image/*"
+            />
           </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Newspaper Author</Form.Label>
-            <Form.Select aria-label="Default select example">
-              <option selected disabled>
-                Select publisher
-              </option>
+            <Form.Select
+              name="newspaperPublisher"
+              required
+              onChange={handleFormChange}
+            >
+              <option>Select publisher</option>
               {publishers.map((publisher) => (
-                <option value={publisher.id}>{publisher.names}</option>
+                <option key={publisher.id} value={publisher.id}>
+                  {publisher.names}
+                </option>
               ))}
             </Form.Select>
           </Form.Group>
@@ -60,6 +118,9 @@ export const Manage: FC<{ data: NewsPapersManage }> = ({ data }) => {
           <Form.Group className="mb-3">
             <Form.Label>Creation Date</Form.Label>
             <Form.Control
+              name="newspaperCreationDate"
+              onChange={handleFormChange}
+              required
               type="date"
               autoFocus
               max={new Date().toISOString().split("T")[0]}
@@ -68,16 +129,21 @@ export const Manage: FC<{ data: NewsPapersManage }> = ({ data }) => {
 
           <Form.Group className="mb-3">
             <Form.Label>Newspaper Abstract</Form.Label>
-            <Form.Control as="textarea" rows={3} />
+            <Form.Control
+              as="textarea"
+              required
+              rows={3}
+              name="newspaperAbstract"
+              onChange={handleFormChange}
+            />
           </Form.Group>
-
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="primary" onClick={handleClose}>
-          Create Newspaper
-        </Button>
-      </Modal.Footer>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" type="submit">
+            Create Newspaper
+          </Button>
+        </Modal.Footer>
+      </Form>
     </Modal>
   );
 };

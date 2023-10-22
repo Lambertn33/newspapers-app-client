@@ -1,7 +1,8 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getNewsPapers } from "../../api/api";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { getNewsPapers, addNewsPaper } from "../../api/api";
+import { INewsPaperInputs } from "../../interfaces/INewsPaperInputs";
 
-interface INewsPaper {
+export interface INewsPaper {
   id: number;
   image: string;
   creationDate: Date;
@@ -13,14 +14,14 @@ interface INewsPaper {
 
 interface INewsPapersState {
   newspapers: INewsPaper[];
-  status: 'idle' | 'loading' | 'succeeded' | 'failed',
+  status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
 const initialState: INewsPapersState = {
   newspapers: [],
-  status: 'idle',
-  error: null
+  status: "idle",
+  error: null,
 };
 
 export const fetchNewsPapers = createAsyncThunk(
@@ -34,25 +35,44 @@ export const fetchNewsPapers = createAsyncThunk(
   }
 );
 
+export const createNewsPaper = createAsyncThunk(
+  "newspapers/add",
+  async (data: INewsPaperInputs, thunkAPI) => {
+    try {
+      return await addNewsPaper(data);
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const newspapersSlice = createSlice({
   name: "newspapers",
   initialState,
-  reducers: {},
+  reducers: {
+    appendNewsPaper(state, action: PayloadAction<INewsPaper>) {
+      state.newspapers.push(action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
-    .addCase(fetchNewsPapers.pending, (state, action) => {
-      state.status = "idle"
-    })
-    .addCase(fetchNewsPapers.fulfilled, (state, action) => {
-      state.status = 'succeeded'
-      state.newspapers = action.payload;
-    })
-    .addCase(fetchNewsPapers.rejected, (state, action) => {
-      state.status = 'failed';
-      state.error = action.error.message!
-    })
+      .addCase(fetchNewsPapers.pending, (state, action) => {
+        state.status = "idle";
+      })
+      .addCase(fetchNewsPapers.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.newspapers = action.payload;
+      })
+      .addCase(fetchNewsPapers.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message!;
+      })
+      .addCase(createNewsPaper.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      });
   },
 });
 
+export const newspapersActions = newspapersSlice.actions;
 
-export default newspapersSlice.reducer
+export default newspapersSlice.reducer;

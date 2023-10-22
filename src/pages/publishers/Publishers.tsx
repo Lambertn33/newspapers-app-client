@@ -25,6 +25,7 @@ const Publishers = () => {
   const [showModal, setShowModal] = useState(false);
   const [publisherToEdit, setPublisherToEdit] =
     useState<IPublisherInputs | null>(null);
+    
   const { publishers, status } = useAppSelector((state) => state.publishers);
   const isEditing = publisherToEdit !== null;
 

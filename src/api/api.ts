@@ -1,5 +1,6 @@
 import axios from "axios";
 import { IPublisherInputs } from "../interfaces/IPublisherInputs";
+import { INewsPaperInputs } from "../interfaces/INewsPaperInputs";
 
 const endpoint =
   process.env.NODE_ENV === "development"
@@ -11,8 +12,10 @@ const GET = async (par: string) => {
   return await response.data;
 };
 
-const POST = async (par: string, data: object) => {
-  const response = await axios.post(`${endpoint}/${par}`, data);
+const POST = async (par: string, data: object, headers?: any) => {
+  const response = await axios.post(`${endpoint}/${par}`, data, {
+    headers
+  });
   return await response.data;
 };
 
@@ -30,6 +33,13 @@ export const getNewsPapers = async () => {
   const { newspapers } = await GET("newspapers");
   return newspapers;
 };
+
+export const addNewsPaper = async(data: INewsPaperInputs) => {
+  const response = await POST("newspapers", data, {
+    "Content-Type": "multipart/form-data"
+  });
+  return await response;
+}
 
 export const getPublishers = async () => {
   const { publishers } = await GET("publishers");
