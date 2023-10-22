@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import { formatDate } from "../../util/date";
 
 interface NewsPaper {
@@ -12,7 +12,7 @@ interface NewsPaper {
   };
 }
 
-export const List: FC<{ data: NewsPaper[] }> = ({ data }) => {
+export const List: FC<{ data: NewsPaper[], deleteNewsPaper: (id: number) => Promise<void>; }> = ({ data, deleteNewsPaper }) => {
   return (
     <Table striped bordered hover className="mt-4">
       <thead>
@@ -31,6 +31,15 @@ export const List: FC<{ data: NewsPaper[] }> = ({ data }) => {
             <td>{newspaper.title}</td>
             <td>{formatDate(newspaper.creationDate)}</td>
             <td>{newspaper.publisher.names}</td>
+            <td>
+            <Button
+                className="btn-sm"
+                variant="danger"
+                onClick={() => deleteNewsPaper(newspaper.id)}
+              >
+                Delete
+              </Button>
+            </td>
           </tr>
         ))}
       </tbody>

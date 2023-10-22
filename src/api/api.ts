@@ -41,6 +41,11 @@ export const addNewsPaper = async(data: INewsPaperInputs) => {
   return await response;
 }
 
+export const deleteNewsPaper = async (id: number) => {
+  const response = await DELETE(`newspapers/${id}`);
+  return response;
+};
+
 export const getPublishers = async () => {
   const { publishers } = await GET("publishers");
   return publishers;

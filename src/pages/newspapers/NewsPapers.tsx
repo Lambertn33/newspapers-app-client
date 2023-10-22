@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { Col, Row } from "react-bootstrap";
+import { Alert, Col, Row } from "react-bootstrap";
 
 import { useAppSelector, useAppDispatch } from "../../store/store";
 import {
   fetchNewsPapers,
+  removeNewsPaper,
   createNewsPaper,
   newspapersActions,
   INewsPaper,
 } from "../../store/newspapers/newspapersSlice";
+
 import { fetchPublishers } from "../../store/publishers/publishersSlice";
 
 import {
@@ -15,6 +17,8 @@ import {
   List as NewsPapersList,
   Manage as NewsPapersManage,
 } from "../../components/newspapers";
+
+import Spinner from "../../components/spinner/Spinner";
 
 const NewsPapers = () => {
   const [showModal, setShowModal] = useState(false);
@@ -68,16 +72,40 @@ const NewsPapers = () => {
     setShowModal(false);
   };
 
+  // delete newspaper
+  const deleteNewsPaper = async (id: number) => {
+    const response = await dispatch(removeNewsPaper(id));
+    const { meta } = response;
+    if (meta.requestStatus === "fulfilled") {
+      dispatch(newspapersActions.eraseNewsPaper({ id }));
+    }
+  };
+
   return (
     <>
-      <Row>
-        <NewsPapersHeader handleShow={handleShow} />
-      </Row>
-      <Row>
-        <Col>
-          <NewsPapersList data={newspapers} />
-        </Col>
-      </Row>
+      <NewsPapersHeader handleShow={handleShow} />
+      {newsPapersStatus === "idle" || publishersStatus === "idle" ? (
+        <div className="d-flex justify-content-center">
+          <Spinner />
+        </div>
+      ) : (
+        <Row>
+          {newspapers.length > 0 ? (
+            <Col>
+              <NewsPapersList
+                data={newspapers}
+                deleteNewsPaper={deleteNewsPaper}
+              />
+            </Col>
+          ) : (
+            <Col md={{ span: 6, offset: 3 }}>
+              <Alert key="danger" variant="danger">
+                No Newspapers found... please create one
+              </Alert>
+            </Col>
+          )}
+        </Row>
+      )}
       <NewsPapersManage
         onCreateNewsPaper={createNewsPaperHandler}
         data={{

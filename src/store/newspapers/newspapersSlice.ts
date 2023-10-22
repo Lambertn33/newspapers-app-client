@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { getNewsPapers, addNewsPaper } from "../../api/api";
+import { getNewsPapers, addNewsPaper, deleteNewsPaper } from "../../api/api";
 import { INewsPaperInputs } from "../../interfaces/INewsPaperInputs";
 
 export interface INewsPaper {
@@ -46,12 +46,28 @@ export const createNewsPaper = createAsyncThunk(
   }
 );
 
+export const removeNewsPaper = createAsyncThunk(
+  "newspapers/delete",
+  async (id: number, thunkAPI) => {
+    try {
+      return await deleteNewsPaper(id);
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
 export const newspapersSlice = createSlice({
   name: "newspapers",
   initialState,
   reducers: {
     appendNewsPaper(state, action: PayloadAction<INewsPaper>) {
       state.newspapers.push(action.payload);
+    },
+    eraseNewsPaper(state, action: PayloadAction<{ id: number }>) {
+      state.newspapers = state.newspapers.filter(
+        (newspaper) => newspaper.id !== action.payload.id
+      );
     },
   },
   extraReducers: (builder) => {
@@ -69,7 +85,10 @@ export const newspapersSlice = createSlice({
       })
       .addCase(createNewsPaper.fulfilled, (state, action) => {
         state.status = "succeeded";
-      });
+      })
+      .addCase(removeNewsPaper.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      })
   },
 });
 
