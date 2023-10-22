@@ -12,7 +12,7 @@ interface NewsPaper {
   };
 }
 
-export const List: FC<{ data: NewsPaper[], deleteNewsPaper: (id: number) => Promise<void>; }> = ({ data, deleteNewsPaper }) => {
+export const List: FC<{ data: NewsPaper[], deleteNewsPaper: (id: number) => Promise<void>; viewNewsPaper: (id: number) => Promise<void>; }> = ({ data, deleteNewsPaper, viewNewsPaper }) => {
   return (
     <Table striped bordered hover className="mt-4">
       <thead>
@@ -31,7 +31,14 @@ export const List: FC<{ data: NewsPaper[], deleteNewsPaper: (id: number) => Prom
             <td>{newspaper.title}</td>
             <td>{formatDate(newspaper.creationDate)}</td>
             <td>{newspaper.publisher.names}</td>
-            <td>
+            <td className="d-flex gap-4">
+            <Button
+                className="btn-sm"
+                variant="primary"
+                onClick={() => viewNewsPaper(newspaper.id)}
+              >
+                View
+              </Button>
             <Button
                 className="btn-sm"
                 variant="danger"

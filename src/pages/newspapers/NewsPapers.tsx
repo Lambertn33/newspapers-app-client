@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert, Col, Row } from "react-bootstrap";
+import { getNewsPaper } from "../../api/api";
 
 import { useAppSelector, useAppDispatch } from "../../store/store";
 import {
@@ -18,10 +19,16 @@ import {
   Manage as NewsPapersManage,
 } from "../../components/newspapers";
 
+import NewsPaper from "../../components/newspaper/NewsPaper";
+
 import Spinner from "../../components/spinner/Spinner";
 
 const NewsPapers = () => {
   const [showModal, setShowModal] = useState(false);
+  const [newsPaper, setNewspaper] = useState({
+    newsPaperModalShown: false,
+    newsPaperToView: null,
+  });
 
   const dispatch = useAppDispatch();
   const { newspapers, status: newsPapersStatus } = useAppSelector(
@@ -40,8 +47,26 @@ const NewsPapers = () => {
     }
   }, [newsPapersStatus, publishersStatus, dispatch]);
 
+  // manage modal
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+
+  // view modal
+  const handleViewClose = () => {
+    setNewspaper({
+      newsPaperModalShown: false,
+      newsPaperToView: null,
+    });
+  };
+
+  //view newspaper
+  const viewNewsPaper = async (id: number) => {
+    const response = await getNewsPaper(id);
+    setNewspaper({
+      newsPaperModalShown: true,
+      newsPaperToView: response,
+    });
+  };
 
   // create newspaper
   const createNewsPaperHandler = async (data: any) => {
@@ -95,6 +120,7 @@ const NewsPapers = () => {
               <NewsPapersList
                 data={newspapers}
                 deleteNewsPaper={deleteNewsPaper}
+                viewNewsPaper={viewNewsPaper}
               />
             </Col>
           ) : (
@@ -106,6 +132,7 @@ const NewsPapers = () => {
           )}
         </Row>
       )}
+
       <NewsPapersManage
         onCreateNewsPaper={createNewsPaperHandler}
         data={{
@@ -114,6 +141,12 @@ const NewsPapers = () => {
           showModal: showModal,
           handleClose: handleClose,
         }}
+      />
+
+      <NewsPaper
+        handleClose={handleViewClose}
+        newspaper={newsPaper.newsPaperToView}
+        showModal={newsPaper.newsPaperModalShown}
       />
     </>
   );

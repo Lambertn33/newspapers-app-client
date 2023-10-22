@@ -30,7 +30,7 @@ export const NewsPapers: FC<{ newspapers: INewsPaper[] | undefined }> = ({
           </Card.Body>
 
           <Card.Body>
-            <Card.Link href={`${newspaper.link}`}>NewsPaper Link</Card.Link>
+            <Card.Link target="_blank" href={`${newspaper.link}`}>NewsPaper Link</Card.Link>
           </Card.Body>
         </Card>
       </>

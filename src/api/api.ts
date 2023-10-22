@@ -34,6 +34,11 @@ export const getNewsPapers = async () => {
   return newspapers;
 };
 
+export const getNewsPaper = async(id: number) => {
+  const { newsPaper } = await GET(`newspapers/${id}`);
+  return newsPaper;
+}
+
 export const addNewsPaper = async(data: INewsPaperInputs) => {
   const response = await POST("newspapers", data, {
     "Content-Type": "multipart/form-data"

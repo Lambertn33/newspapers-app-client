@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Container, Row, Col, Nav, Navbar } from "react-bootstrap";
 
-import { NewsPaper, NewsPapers } from "./pages/newspapers";
+import {  NewsPapers } from "./pages/newspapers";
 import { Publisher, Publishers } from "./pages/publishers";
 import Home from "./pages/Home";
 
@@ -38,7 +38,6 @@ const App = () => {
               <Route path="/" element={<Home />} />
 
               <Route path="newspapers" element={<NewsPapers />} />
-              <Route path="newspapers/:id" element={<NewsPaper />} />
 
               <Route path="publishers" element={<Publishers />} />
               <Route path="publishers/:id" element={<Publisher />} />
