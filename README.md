@@ -1,6 +1,9 @@
 # newspapers-app
 A simple Javascript application that manages newspapers and related publishers
 
+# backend repo
+https://github.com/Lambertn33/newspapers-app
+
 # technologies
 - React.js
 - Redux toolkit
