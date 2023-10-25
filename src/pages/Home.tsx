@@ -7,7 +7,7 @@ const Home = () => {
         <Card.Body>
           <Card.Title>Welcome To This Application</Card.Title>
           <Card.Subtitle className="mb-2 text-muted">
-            News Letter Application
+            Newspapers Application
           </Card.Subtitle>
           <Card.Text>
             Lorem ipsum dolor sit amet consectetur, adipisicing elit.

@@ -16,22 +16,20 @@ jobs:
         run: |
           touch .env
           echo "process.env.REACT_APP_BACKEND_URL=${{secrets.REACT_APP_BACKEND_URL}}" | > .env 
-          
-      - name: view .env
-        run: cat .env
+      
+      - name: build the project
+        run: npm run build
+
       - name: produce artifacts
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
-          path: ./
-  # deploy:
-  #   runs-on: self-hosted
-  #   needs: build
-  #   steps:
-  #     - name: download the artifacts
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: dist-files
-  #     - name: build the project
-  #       run: npm run build
-  
+          path: build
+  deploy:
+    runs-on: self-hosted
+    needs: build
+    steps:
+      - name: download the artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: dist-files
