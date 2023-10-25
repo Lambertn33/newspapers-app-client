@@ -19,20 +19,19 @@ jobs:
           
       - name: view .env
         run: cat .env
-      
-      - name: build the project
-        run: npm run build
-
       - name: produce artifacts
         uses: actions/upload-artifact@v3
         with:
           name: dist-files
           path: build
-  deploy:
-    runs-on: self-hosted
-    needs: build
-    steps:
-      - name: download the artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: dist-files
+  # deploy:
+  #   runs-on: self-hosted
+  #   needs: build
+  #   steps:
+  #     - name: download the artifacts
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: dist-files
+  #     - name: build the project
+  #       run: npm run build
+  
