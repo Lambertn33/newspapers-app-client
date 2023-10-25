@@ -1,6 +1,7 @@
 import { Col, Card } from "react-bootstrap";
 
 const Home = () => {
+  console.log(process.env);
   return (
     <Col md={{ span: 6, offset: 3 }}>
       <Card>
