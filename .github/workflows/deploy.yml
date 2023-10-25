@@ -15,15 +15,11 @@ jobs:
       - name: create .env
         run: |
           touch .env
-          echo "REACT_APP_BACKEND_DEV=ec2-16-171-166-236.eu-north-1.compute.amazonaws.com/api" | > .env 
-          echo "REACT_APP_BACKEND_PROD=ec2-16-171-166-236.eu-north-1.compute.amazonaws.com/api" | >> .env
+          echo "REACT_APP_BACKEND_DEV=ec2-16-171-166-236.eu-north-1.compute.amazonaws.com:4000/api" | > .env 
+          echo "REACT_APP_BACKEND_PROD=ec2-16-171-166-236.eu-north-1.compute.amazonaws.com:4000/api" | >> .env
           
       - name: view .env
         run: cat .env
-
-      - name: build the project
-        run: npm run build
-
 
       - name: produce artifacts
         uses: actions/upload-artifact@v3
