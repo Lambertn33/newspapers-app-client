@@ -5,17 +5,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
     steps:
       - name: get the codes
         uses: actions/checkout@v4
 
       - name: install dependencies
         run: npm install
-
-      - name: create .env
-        run: |
-          touch .env
-          echo "process.env.REACT_APP_BACKEND_URL=${{secrets.REACT_APP_BACKEND_URL}}" | > .env 
       
       - name: build the project
         run: npm run build
