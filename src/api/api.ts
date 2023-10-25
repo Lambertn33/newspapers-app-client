@@ -2,27 +2,27 @@ import axios from "axios";
 import { IPublisherInputs } from "../interfaces/IPublisherInputs";
 import { INewsPaperInputs } from "../interfaces/INewsPaperInputs";
 
-const endpoint = process.env.REACT_APP_BACKEND_URL
+const endpoint = process.env.REACT_APP_BACKEND_URL;
 
 const GET = async (par: string) => {
-  const response = await axios.get(`${endpoint}/${par}`);
+  const response = await axios.get(`${endpoint}:4000/api/${par}`);
   return await response.data;
 };
 
 const POST = async (par: string, data: object, headers?: any) => {
-  const response = await axios.post(`${endpoint}/${par}`, data, {
+  const response = await axios.post(`${endpoint}:4000/api/${par}`, data, {
     headers
   });
   return await response.data;
 };
 
 const PUT = async(par: string, data: object) => {
-  const response = await axios.put(`${endpoint}/${par}`, data);
+  const response = await axios.put(`${endpoint}:4000/api/${par}`, data);
   return await response.data;
 }
 
 const DELETE = async (par: string) => {
-  const response = await axios.delete(`${endpoint}/${par}`);
+  const response = await axios.delete(`${endpoint}:4000/api/${par}`);
   return await response.data;
 };
 

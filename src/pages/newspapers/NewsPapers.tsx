@@ -39,7 +39,6 @@ const NewsPapers = () => {
   );
 
   useEffect(() => {
-    console.log(process.env.NODE_ENV);
     if (publishersStatus === "idle") {
       dispatch(fetchPublishers());
     }
