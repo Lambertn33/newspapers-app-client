@@ -20,6 +20,9 @@ jobs:
           
       - name: view .env
         run: cat .env
+      
+      - name: build the project
+        run: npm run build
 
       - name: produce artifacts
         uses: actions/upload-artifact@v3
