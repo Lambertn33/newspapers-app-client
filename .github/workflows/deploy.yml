@@ -12,6 +12,13 @@ jobs:
       - name: install dependencies
         run: npm install
 
+      - name: create .env
+        run: |
+          touch .env
+          echo "${{secrets.SERVER_ENV_FILE}}" > .env  
+      - name: view the .env
+        run: cat .env
+
       - name: build the project
         run: npm run build
 
@@ -28,7 +35,3 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist-files
-      - name: create .env
-        run: |
-          touch .env
-          echo "${{secrets.SERVER_ENV_FILE}}" > .env
