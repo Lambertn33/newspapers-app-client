@@ -2,10 +2,7 @@ import axios from "axios";
 import { IPublisherInputs } from "../interfaces/IPublisherInputs";
 import { INewsPaperInputs } from "../interfaces/INewsPaperInputs";
 
-const endpoint =
-  process.env.NODE_ENV === "development"
-    ? process.env.REACT_APP_BACKEND_DEV
-    : process.env.REACT_APP_BACKEND_PROD;
+const endpoint = "http://ec2-16-171-166-236.eu-north-1.compute.amazonaws.com:4000/api"
 
 const GET = async (par: string) => {
   const response = await axios.get(`${endpoint}/${par}`);
