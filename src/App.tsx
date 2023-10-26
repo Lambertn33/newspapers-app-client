@@ -1,9 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { Container, Row, Col, Nav, Navbar } from "react-bootstrap";
 
-import {  NewsPapers } from "./pages/newspapers";
-import { Publisher, Publishers } from "./pages/publishers";
-import Home from "./pages/Home";
+import { Home, NewsPapers, NotFound, Publisher, Publishers } from "./pages";
 
 import newsLettersImage from './assets/newsletters.png';
 
@@ -41,6 +39,7 @@ const App = () => {
 
               <Route path="publishers" element={<Publishers />} />
               <Route path="publishers/:id" element={<Publisher />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </Col>
         </Row>
