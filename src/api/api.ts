@@ -22,7 +22,7 @@ const PUT = async(par: string, data: object) => {
 }
 
 const DELETE = async (par: string) => {
-  const response = await axios.delete(`${endpoint}:4000/api/${par}`);
+  const response = await axios.delete(`${endpoint}/${par}`);
   return await response.data;
 };
 
