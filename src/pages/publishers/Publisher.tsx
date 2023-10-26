@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Row } from "react-bootstrap";
 
 import { getPublisher } from "../../api/api";
 
@@ -30,9 +29,7 @@ const Publisher = () => {
         <>
           <PublisherHeader publisher={publisher!} />
           {publisher?.newsPapers?.length! > 0 && (
-            <Row>
               <PublisherNewsPapers newspapers={publisher?.newsPapers} />
-            </Row>
           )}
         </>
       )}

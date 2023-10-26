@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Card, Col } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { formatDate } from "../../util/date";
 
 interface INewsPaper {
@@ -22,15 +22,17 @@ export const NewsPapers: FC<{ newspapers: INewsPaper[] | undefined }> = ({
           <Card.Body>
             <Card.Title>{newspaper.title}</Card.Title>
             <Card.Text>
-              <p>Created on <b>{ formatDate(newspaper.creationDate) }</b></p>
+              <p>
+                Created on <b>{formatDate(newspaper.creationDate)}</b>
+              </p>
             </Card.Text>
-            <Card.Text>
-              {newspaper.abstract}
-            </Card.Text>
+            <Card.Text>{newspaper.abstract}</Card.Text>
           </Card.Body>
 
           <Card.Body>
-            <Card.Link target="_blank" href={`${newspaper.link}`}>NewsPaper Link</Card.Link>
+            <Card.Link target="_blank" href={`${newspaper.link}`}>
+              NewsPaper Link
+            </Card.Link>
           </Card.Body>
         </Card>
       </>
@@ -39,13 +41,15 @@ export const NewsPapers: FC<{ newspapers: INewsPaper[] | undefined }> = ({
 
   return (
     <div className="mt-4">
-      {newspapers?.map((newspaper, key) => {
-        return (
-          <Col md={4}>
-            <RenderNewsPaper key={key} newspaper={newspaper} />
-          </Col>
-        );
-      })}
+      <Row>
+        {newspapers?.map((newspaper, key) => {
+          return (
+            <Col md={4}>
+              <RenderNewsPaper key={key} newspaper={newspaper} />
+            </Col>
+          );
+        })}
+      </Row>
     </div>
   );
 };
